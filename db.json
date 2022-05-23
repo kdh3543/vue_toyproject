@@ -1,0 +1,178 @@
+{
+  "member": [
+    {
+      "id": "test",
+      "pw": "test1234",
+      "name": "test"
+    },
+    {
+      "id": "test1",
+      "pw": "12341234",
+      "name": "test"
+    }
+  ],
+  "boardList": [
+    {
+      "userId": "test",
+      "title": "vcxvc",
+      "contents": "vxcvxctest",
+      "updatedAt": "2022-05-11T08:59:07.219Z",
+      "views": 5,
+      "id": 14
+    },
+    {
+      "userId": "test",
+      "title": "testgfd",
+      "contents": "test",
+      "updatedAt": "2022-05-11T08:59:46.231Z",
+      "views": 11,
+      "id": 15
+    },
+    {
+      "userId": "test1",
+      "title": "testt",
+      "contents": "etstestse",
+      "updatedAt": "2022-05-11T09:00:10.533Z",
+      "views": 14,
+      "id": 16
+    },
+    {
+      "userId": "test",
+      "title": "t",
+      "contents": "t",
+      "updatedAt": "2022-05-11T09:29:51.732Z",
+      "views": 2,
+      "id": 17
+    },
+    {
+      "userId": "test",
+      "title": "vcx",
+      "contents": "vcx",
+      "updatedAt": "2022-05-11T09:29:57.079Z",
+      "views": 1,
+      "id": 18
+    },
+    {
+      "userId": "test",
+      "title": "bvc",
+      "contents": "bcv",
+      "updatedAt": "2022-05-11T09:30:02.058Z",
+      "views": 3,
+      "id": 19
+    },
+    {
+      "userId": "test",
+      "title": "bvc",
+      "contents": "bvc",
+      "updatedAt": "2022-05-11T09:30:05.347Z",
+      "views": 1,
+      "id": 20
+    },
+    {
+      "userId": "test",
+      "title": "cvb",
+      "contents": "cvb",
+      "updatedAt": "2022-05-11T09:30:09.348Z",
+      "views": 1,
+      "id": 21
+    },
+    {
+      "userId": "test",
+      "title": "xcv",
+      "contents": "xcv",
+      "updatedAt": "2022-05-11T09:30:15.694Z",
+      "views": 2,
+      "id": 22
+    },
+    {
+      "userId": "test",
+      "title": "fff",
+      "contents": "ffff",
+      "updatedAt": "2022-05-11T09:46:55.543Z",
+      "views": 2,
+      "id": 23
+    },
+    {
+      "userId": "test",
+      "title": "cds",
+      "contents": "cds",
+      "updatedAt": "2022-05-11T09:47:00.319Z",
+      "views": 0,
+      "id": 24
+    }
+  ],
+  "reservation": [
+    {
+      "seatState": "empty",
+      "name": "",
+      "date": "",
+      "id": 1
+    },
+    {
+      "date": "2022-05-21",
+      "name": "test",
+      "seatState": "reserved",
+      "id": 2
+    },
+    {
+      "date": "2022-05-26",
+      "name": "test",
+      "seatState": "reserved",
+      "id": 3
+    },
+    {
+      "date": "2022-05-25",
+      "name": "test",
+      "seatState": "reserved",
+      "id": 4
+    },
+    {
+      "date": "2022-05-26",
+      "name": "test",
+      "seatState": "reserved",
+      "id": 5
+    },
+    {
+      "date": "2022-05-13",
+      "name": "test",
+      "seatState": "reserved",
+      "id": 6
+    },
+    {
+      "date": "2022-06-02",
+      "name": "fdz",
+      "seatState": "reserved",
+      "id": 7
+    },
+    {
+      "date": "2022-05-25",
+      "name": "test",
+      "seatState": "reserved",
+      "id": 8
+    },
+    {
+      "seatState": "empty",
+      "name": "",
+      "date": "",
+      "id": 9
+    },
+    {
+      "date": "2022-05-26",
+      "name": "test",
+      "seatState": "reserved",
+      "id": 10
+    },
+    {
+      "date": "2022-05-26",
+      "name": "rttes",
+      "seatState": "reserved",
+      "id": 11
+    },
+    {
+      "seatState": "empty",
+      "name": "",
+      "date": "",
+      "id": 12
+    }
+  ]
+}
