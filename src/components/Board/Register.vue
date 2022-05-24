@@ -48,10 +48,10 @@ export default {
         const data = {
           title: title.value,
           contents: contents.value,
-          userId: store.state.user,
+          userId: store.state.member.user,
           updatedAt: time.toISOString()
         }
-        store.dispatch('register',data).then((res)=>{
+        store.dispatch('board/register',data).then((res)=>{
           alert("success")
           router.push({
             name: 'Board'

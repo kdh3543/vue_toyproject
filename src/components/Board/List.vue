@@ -1,32 +1,38 @@
 <template>
   <div class="container">
-    <div class="mt-3 d-flex">
+    <div class="pt-3 d-flex">
       <h2 class="mx-auto">Board</h2>
     </div>
     
-    <div class="head mt-3 d-flex" v-if="$store.state.user">
+    <div class="head mt-3 d-flex" v-if="$store.state.member.user">
         
       <span class="span">
         <button class="btn btn-primary btn-sm register" @click="toRegister">Register</button>
       </span>
     </div>
     <hr>
-    <div class="d-flex boardTitle" v-if="$store.state.user">
-      <div class="col-2">SEQ</div>
+    <div class="d-flex boardTitle" v-if="$store.state.member.user">
+      <div class="col-1">SEQ</div>
       <div class="col-2">ID</div>
       <div class="col-3">TITLE</div>
       <div class="col-3">UPDATEDAT</div>
-      <div class="col-2">VIEWS</div>
+      <div class="col-2">DELETE</div>
+      <div class="col-1">VIEWS</div>
     </div>
     <hr>
-    <div v-if="$store.state.user">
+    <div v-if="$store.state.member.user">
       <div class="card mt-2" v-for="(list,index) in boards" :key="index" @click="boardInfor(index)">
-        <div class="d-flex boardTitle card-body p-2">
-          <div class="col-2">{{list.id}}</div>
+        <div class="d-flex align-items-center boardTitle card-body p-2">
+          <div class="col-1">{{list.id}}</div>
           <div class="col-2">{{list.userId}}</div>
           <div class="col-3">{{list.title}}</div>
           <div class="col-3">{{list.updatedAt}}</div>
-          <div class="col-2">{{list.views}}</div>
+          <div class="col-2">
+            <button class="btn btn-danger btn-sm delete" @click.stop="deleteBoard(list.id)" :class="list.userId==$store.state.member.user ? '' : 'disabled'">
+              Delete
+            </button>
+          </div>
+          <div class="col-1">{{list.views}}</div>
         </div>
       </div>
     </div>
@@ -43,6 +49,7 @@
       />
       <Select @choice="choice" />
     </div>
+    <BoardDeleteModal :index="sendIndex" v-if="openDelete" @closeDelete='closeDelete' @onDelete='onDelete'/>
   </div>
 </template>
 
@@ -52,20 +59,24 @@ import { useStore } from 'vuex'
 import { ref } from 'vue'
 import Pagination from '@/components/Pagination/Pagination.vue'
 import Select from '@/components/Pagination/Select.vue'
+import BoardDeleteModal from '@/components/Modal/Board/DeleteBoardModal.vue'
 
 export default {
   components:{
     Pagination,
-    Select
+    Select,
+    BoardDeleteModal
   },
   setup(){
-    const initOrder = ref('ASC')
+    const initOrder = ref('DESC')
     const totalBoards = ref(0)
     const limit = 10
     const currentPage = ref(1)
     const router = useRouter()
     const store = useStore()
     const boards = ref([])
+    const openDelete = ref(false)
+    const sendIndex = ref(null)
     const totalPages = () => {
       return Math.ceil(totalBoards.value/limit)
     }
@@ -84,7 +95,8 @@ export default {
         order: order,
         limit: limit
       }
-      store.dispatch('getBoardList',data).then((res)=>{
+      store.dispatch('board/getBoardList',data).then((res)=>{
+        console.log(res)
         boards.value = res.data
         totalBoards.value = res.headers['x-total-count']
       })
@@ -92,7 +104,7 @@ export default {
     boardList()
     const choice = (e) => {
       initOrder.value = e.target.value
-      store.dispatch('getBoardList',{
+      store.dispatch('board/getBoardList',{
         order: e.target.value,
         page: currentPage.value,
         limit: limit
@@ -108,12 +120,26 @@ export default {
         id: id,
         views: views
       }
-      store.dispatch('plusViews',data)
+      store.dispatch('board/plusViews',data)
       router.push({
         name: 'BoardInfor',
         query: {
           id: id,
         }
+      })
+    }
+    const deleteBoard = (index) => {
+      sendIndex.value=index
+      console.log(sendIndex.value)
+      openDelete.value = true
+    }
+    const closeDelete = () => {
+      openDelete.value = false
+    }
+    const onDelete = (index) => {
+      store.dispatch('board/deleteBoard',index).then(()=>{
+        openDelete.value = false
+        boardList()
       })
     }
     return {
@@ -125,7 +151,12 @@ export default {
       initOrder,
       currentPage,
       totalBoards,
-      choice
+      choice,
+      deleteBoard,
+      openDelete,
+      closeDelete,
+      onDelete,
+      sendIndex
     }
   }
 }
@@ -154,5 +185,13 @@ export default {
 }
 .card:hover {
   cursor: pointer;
+  background-color: rgb(245, 222, 179, 0.5);
+}
+.delete {
+  border-radius: 1rem;
+}
+.delete:hover {
+  cursor: default;
+  background-color: brown;
 }
 </style>

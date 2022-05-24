@@ -21,18 +21,18 @@ const router = createRouter({
     {
       path: '/Board',
       name: 'Board',
-      component: () => import('@/pages/Board/List.vue')
+      component: () => import('@/components/Board/List.vue')
     },
     {
       path: '/Board/Register',
       name: 'Register',
-      component: () => import('@/pages/Board/Register.vue')
+      component: () => import('@/components/Board/Register.vue')
     },
     {
       path: '/Board/_id',
       name: 'BoardInfor',
-      component: () => import('@/pages/Board/BoardInfor.vue')
-    }
+      component: () => import('@/components/Board/BoardInfor.vue')
+    },
   ]
 })
 

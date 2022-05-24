@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NavBar @SignUp="SignUp" @SignIn="SignIn" @Logout="Logout"/>
+    <NavBar @SignUp="SignUp" @SignIn="SignIn" @logout="logout"/>
     <SignUpModal v-if="openSignUp" @closeSignUp="closeSignUp" @onSignUp="onSignUp" class="signModal"/>  
     <SignInModal v-if="openSignIn" @closeSignIn="closeSignIn" @onSignIn="onSignIn" class="signModal"/>
     <LogoutModal v-if="openLogout" @closeLogout="closeLogout" @onLogout="onLogout" class="signModal"/>
@@ -36,7 +36,7 @@ export default {
       openSignUp.value = false
     }
     const onSignUp = (data) => {
-      store.dispatch('signUp',data).then((res)=>{
+      store.dispatch('member/signUp',data).then((res)=>{
         alert(res.data.id+'님 가입이 완료되었습니다.')
         openSignUp.value = false
       })
@@ -48,13 +48,11 @@ export default {
       openSignIn.value = false
     }
     const onSignIn = (data) => {
-      store.dispatch('signIn',data).then((res)=>{
-        console.log(store.state.user)
-        if(store.state.user==''){
+      store.dispatch('member/signIn',data).then((res)=>{
+        if(store.state.member.user==''){
           alert('잘못 입력하셨습니다.')
           return false
         }else{
-          alert('로그인 성공')
           openSignIn.value = false
         }
       }).catch((err)=>{
@@ -62,10 +60,8 @@ export default {
       })
     }
     const onLogout = () => {
-
-      store.dispatch('logout').then((res)=>{
-        if(store.state.user==''){
-          alert('로그아웃 완료')
+      store.dispatch('member/logout').then((res)=>{
+        if(store.state.member.user==''){
           openLogout.value = false
           router.push({
             name: 'Home'
@@ -73,8 +69,7 @@ export default {
         }
       })
     }
-    const Logout = () => {
-      console.log('open logout')
+    const logout = () => {
       openLogout.value = true
     }
     const closeLogout = () => {
@@ -90,7 +85,7 @@ export default {
       closeSignIn,
       onSignIn,
       openLogout,
-      Logout,
+      logout,
       closeLogout,
       onLogout
     }

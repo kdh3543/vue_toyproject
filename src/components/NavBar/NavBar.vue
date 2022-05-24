@@ -10,10 +10,10 @@
           <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
             <li class="nav-item"><router-link class="nav-link" :to="{name: 'Home'}">Home</router-link></li>
             <li class="nav-item"><router-link class="nav-link" :to="{name: 'Board'}">Board</router-link></li>
-            <li class="nav-item" v-if="$store.state.user"><button class="btns nav-link" @click="openLogoutModal">Logout</button></li>
-            <li class="nav-item" v-if="!$store.state.user"><button class="btns nav-link" @click="openSignUpModal">SignUp</button></li>
-            <li class="nav-item" v-if="!$store.state.user"><button class="btns nav-link" @click="openSignInModal">Login</button></li>
-            <li class="nav-item" v-if="$store.state.user"><span class="nav-link active">{{$store.state.user}}님</span></li>
+            <li class="nav-item" v-if="$store.state.member.user"><button class="btns nav-link" @click="openLogoutModal">Logout</button></li>
+            <li class="nav-item" v-if="!$store.state.member.user"><button class="btns nav-link" @click="openSignUpModal">SignUp</button></li>
+            <li class="nav-item" v-if="!$store.state.member.user"><button class="btns nav-link" @click="openSignInModal">Login</button></li>
+            <li class="nav-item" v-if="$store.state.member.user"><span class="nav-link active">{{$store.state.member.user}}님</span></li>
           </ul>
         </div>
       </div>
@@ -27,21 +27,19 @@ import axios from 'axios'
 import { useCookies } from 'vue3-cookies'
 import { useRouter } from 'vue-router'
 export default {
-  emits:['SignUp','SignIn','Logout'],
+  emits:['SignUp','SignIn','logout'],
   setup(props,{emit}){
     const cookies = useCookies().cookies.get('test')
-    console.log(cookies)
     axios.defaults.headers.common['Authorization'] = `Bearer ${cookies}`
     const router = useRouter()
     const openSignUpModal = () => {
-      console.log('signal')
       emit('SignUp')
     }
     const openSignInModal = () => {
       emit('SignIn')
     }
     const openLogoutModal = () => {
-      emit('Logout')
+      emit('logout')
     }
     const toBoard = () => {
       alert('please Login')
