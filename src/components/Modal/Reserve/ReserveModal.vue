@@ -18,6 +18,12 @@
         <span class="input-group-text">Name: </span>
         <input type="text" class="form-control name" v-model="name">
       </div>
+      <div class="mt-2 input-group">
+        <span class="input-group-text">Time: </span>
+        <select class="select">
+          <option>0~2</option>
+        </select>
+      </div>
       
       <div class="error" v-if="error">
         All information must be entered.
@@ -96,7 +102,7 @@ export default {
 .reserveBox {
   margin: auto;
   width: 300px;
-  height: 300px;
+  height: 350px;
   background-color: gray;
   border: 10px solid black;
   position: relative;
@@ -127,5 +133,8 @@ export default {
 .error {
   color: salmon;
 }
-
+.select {
+  background: none;
+  border: 1px solid white;
+}
 </style>

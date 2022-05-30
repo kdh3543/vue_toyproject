@@ -24,6 +24,37 @@
         </button>
       </router-link>
     </div>
+    <div class="mt-4">
+      <div class="form-floating">
+        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 120px; resize:none" v-model="toComment"></textarea>
+        <label for="floatingTextarea2">Comments</label>
+      </div>
+      <div class="register">
+        <button class="mt-2 btn btn-secondary" @click="registerComment">register</button>
+      </div>
+      <div v-if="comments">
+        <div class="commentBox d-flex mt-2" v-for="list in comments" :key="list" >
+          <div class="col-10">
+            <div class="id p-1">
+              {{ list.userId }}
+            </div>
+            <div class="time p-1">
+              {{ list.time }}
+            </div>
+            <div class="contents p-1">
+              {{ list.comment }}
+            </div>
+          </div>
+          
+          <div class="col-2 commentBtns">
+            <button class="m-1">수정</button>
+            <button class="m-1">삭제</button>
+          </div>
+        </div>
+      </div>
+      
+      <hr>
+    </div>
   </div>
 </template>
 
@@ -31,6 +62,7 @@
 import { ref } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter,useRoute } from 'vue-router'
+import dayjs from 'dayjs'
 
 export default {
   setup() {
@@ -42,6 +74,9 @@ export default {
     const route = useRoute()
     const id = route.query.id
     const userId = ref('')
+    const toComment = ref('')
+    const commentExist = ref(false)
+    const comments = ref([])
       
     const getInfor = () => {
       store.dispatch('board/getBoardInfor',id).then((res)=>{
@@ -68,13 +103,34 @@ export default {
         console.log(err)
       })
     }
+    const registerComment = () => {
+      const data = {
+        id: id,
+        userId: store.state.member.user,
+        comment: toComment.value,
+        time: dayjs().format('YYYY-MM-DD HH:mm:ss')
+      }
+      store.dispatch('board/comment',data)
+    }
+    const getComment = () => {
+      store.dispatch('board/getComment',id).then((res)=> {
+        console.log(res)
+        comments.value = res.data
+      })
+    }
+    getComment()
     return {
       error,
       modify,
       getInfor,
       title,
       contents,
-      userId
+      userId,
+      toComment,
+      commentExist,
+      registerComment,
+      getComment,
+      comments
     }
   }
 }
@@ -84,9 +140,7 @@ export default {
 .head {
   text-align: center;
 }
-.btns {
-  text-align: center;
-}
+
 .btns button {
   background-color: dimgrey;
   border: none;
@@ -96,5 +150,27 @@ export default {
 }
 .error {
   color: salmon;
+}
+.register {
+  text-align: right;
+}
+.commentBox {
+  width: 100%;
+  height: 150px;
+  border: 1px solid gray;
+  border-radius: 10px;
+  position: relative;
+}
+.commentBtns {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+.commentBtns > button {
+  border: none;
+  background: none;
+}
+.commentBtns > button:hover {
+  transform: scale(1.1);
 }
 </style>

@@ -12,13 +12,15 @@ export default {
         state.user = ''
       }else{
         state.user = data.id
-        useCookies().cookies.set('test',data.id,'1d')
-        const cookies = useCookies().cookies.get('test')
+        useCookies().cookies.set('token',data.id,'3d')
+        const cookies = useCookies().cookies.get('token')
         axios.defaults.headers.common['Authorization'] = `Bearer ${cookies}`
       } 
     },
     logout(state){
       state.user = ''
+      useCookies().cookies.remove('token')
+      axios.defaults.headers.common['Authorization'] = null
     },
   },
   actions: {

@@ -42,6 +42,17 @@ export default {
     },
     async deleteBoard({commit},data){
       return await axios.delete(`${member}/boardList/${data}`)
+    },
+    async comment({commit},data){
+      return await axios.post(`${member}/comment`,{
+        userId: data.userId,
+        boardId: data.id,
+        comment: data.comment,
+        time: data.time
+      })
+    },
+    async getComment({commit},data){
+      return await axios.get(`${member}/comment?boardId=${data}`)
     }
   },
   getters: {

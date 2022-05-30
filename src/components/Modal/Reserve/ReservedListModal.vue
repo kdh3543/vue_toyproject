@@ -8,6 +8,7 @@
       </div>
       <button class="btn btn-close close" @click="closeList"></button>
       <slot name="body" :index="index" :id="reserveList.id" :date="reserveList.date" :reserveName="reserveList.name"></slot>
+      
       <slot name="foot" :memberId="reserveList.memberId" :id="reserveList.id" ></slot>
       
     </div>

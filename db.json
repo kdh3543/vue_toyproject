@@ -78,7 +78,7 @@
       "title": "cvb",
       "contents": "cvb",
       "updatedAt": "2022-05-11T09:30:09.348Z",
-      "views": 2,
+      "views": 4,
       "id": 21
     },
     {
@@ -102,7 +102,7 @@
       "title": "cds",
       "contents": "cds",
       "updatedAt": "2022-05-11T09:47:00.319Z",
-      "views": 4,
+      "views": 6,
       "id": 24
     },
     {
@@ -110,7 +110,7 @@
       "title": "test",
       "contents": "testtest",
       "updatedAt": "2022-05-23T09:20:34.499Z",
-      "views": 5,
+      "views": 7,
       "id": 25
     },
     {
@@ -126,7 +126,7 @@
       "title": "testest",
       "contents": "testestes",
       "updatedAt": "2022-05-24T08:21:53.140Z",
-      "views": 2,
+      "views": 3,
       "id": 27
     }
   ],
@@ -195,10 +195,10 @@
       "id": 11
     },
     {
-      "seatState": "empty",
-      "name": "",
-      "date": "",
-      "memberId": "",
+      "date": "2022-06-02",
+      "name": "test1234",
+      "seatState": "reserved",
+      "memberId": "test1234",
       "id": 12
     },
     {
@@ -242,6 +242,22 @@
       "date": "",
       "memberId": "",
       "id": 18
+    }
+  ],
+  "comment": [
+    {
+      "userId": "test1234",
+      "boardId": "25",
+      "comment": "vxvcx",
+      "time": "2022-05-30 18:13:44",
+      "id": 1
+    },
+    {
+      "userId": "test1234",
+      "boardId": "25",
+      "comment": "czc",
+      "time": "2022-05-30 18:15:14",
+      "id": 2
     }
   ]
 }
