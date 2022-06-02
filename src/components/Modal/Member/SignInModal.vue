@@ -4,18 +4,33 @@
       <form @submit.prevent="onSignIn">
         <div class="d-flex title">
           <h2>SIGN IN</h2>
-          <span class="btn btn-close btn-close-white close" @click="closeModal"></span>
+          <span
+            class="btn btn-close btn-close-white close"
+            @click="closeModal"
+          />
         </div>
         <div class="input-group mb-3">
           <span class="input-group-text">ID: </span>
-          <input type="text" placeholder="input your id" class="form-control" v-model="id">
+          <input
+            v-model="id"
+            type="text"
+            placeholder="input your id"
+            class="form-control"
+          >
         </div>
         <div class="input-group mb-3">
           <span class="input-group-text">PW: </span>
-          <input type="password" placeholder="input your pw" class="form-control" v-model="pw">
+          <input
+            v-model="pw"
+            type="password"
+            placeholder="input your pw"
+            class="form-control"
+          >
         </div>
         <div class="input-group">
-          <button class="btn btn-primary submit btn-sm mx-auto">SUBMIT</button>
+          <button class="btn btn-primary submit btn-sm mx-auto">
+            SUBMIT
+          </button>
         </div>
       </form>
     </div>
@@ -26,7 +41,7 @@
 import { ref } from 'vue'
 
 export default {
-  emits:['onSignIn','closeSignIn'],
+  emits:['on-sign-in','close-sign-in'],
   setup(props,{emit}){
     const id = ref('')
     const pw = ref('')
@@ -37,10 +52,10 @@ export default {
         id: id.value,
         pw: pw.value
       }
-      emit('onSignIn', data)
+      emit('on-sign-in', data)
     }
     const closeModal = () => {
-      emit('closeSignIn')
+      emit('close-sign-in')
     }
     return {
       id,

@@ -1,6 +1,9 @@
 <template>
   <span class="d-flex">
-    <select class="form-select me-2 choice" @change="choice($event)">
+    <select
+      class="form-select me-2 choice"
+      @change="choice($event)"
+    >
       <option>ASC</option>
       <option>DESC</option>
     </select>

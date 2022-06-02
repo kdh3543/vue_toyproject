@@ -1,4 +1,5 @@
 import axios from "axios"
+import dayjs from 'dayjs'
 const member = 'http://localhost:3000'
 export default {
   namespaced: true,
@@ -53,6 +54,15 @@ export default {
     },
     async getComment({commit},data){
       return await axios.get(`${member}/comment?boardId=${data}`)
+    },
+    async delComment({commit},data){
+      return await axios.delete(`${member}/comment/${data}`)
+    },
+    async modComment({commit},data){
+      return await axios.patch(`${member}/comment/${data.id}`,{
+        comment: data.modifiedComment,
+        time: dayjs().format('YYYY-MM-DD HH:mm:ss')
+      })
     }
   },
   getters: {

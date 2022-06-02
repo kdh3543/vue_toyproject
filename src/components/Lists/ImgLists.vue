@@ -1,59 +1,109 @@
 <template>
   <section class="py-5">
-      
-      <div class="container px-4 px-lg-5 mt-5">
-        <div>
-					<button class="btn btn-outline-dark" @click="register">register</button>
-        </div>
-        <hr>
-          <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-						<div class="col-3 mb-3 text-center list" v-for="(list,index) in seats" :key="index">
-							<button class="btn btn" @click="openReserveModal(index,list.id)">
-								<div class="card"> 
-									<div class="card-img-top state" :style="list.seatState=='empty' ? 'background-color:salmon' : 'background-color:green'">
-										{{list.seatState}}
-									</div>
-									<div class="card-body">
-										<div class="text-center">
-											<h5 class="fw-bolder">{{list.id}}</h5>
-										</div>
-									</div>
-								</div>
-							</button>
-						</div>
-          </div>
-          
+    <div class="container px-4 px-lg-5 mt-5">
+      <div>
+        <button
+          class="btn btn-outline-dark"
+          @click="register"
+        >
+          register
+        </button>
       </div>
-      <teleport to="#modal">
-        <ReserveModal v-if="reserve" class="reserveModal" @closeReserve="closeReserve" @reserveSuccess="reserveSuccess" :sendId="sendId" :index="sendIndex"/>
-        
-      </teleport>
-      <teleport to="#modal">
-        <ReservedListModal class="reserveModal" v-if="reserveList" :reserveList="reservedInfor" @closeList="closeList" @reserveCancel="reserveCancel">
-					<template #head>
-						RESERVE LIST
-					</template>
-					<template #body="slotProps">
-						<div class="input-group">
-							<span class="input-group-text">Seat Num: </span>
-							<input type="text" class="date form-control" disabled :value="slotProps.id">
-						</div>
-						<div class="mt-2 input-group">
-							<span class="input-group-text">Date: </span>
-							<input type="date" class="date form-control" disabled :value="slotProps.date">
-						</div>
-						<div class="mt-2 input-group">
-							<span class="input-group-text">Name: </span>
-							<input type="text" class="form-control name" disabled :value="slotProps.reserveName">
-						</div>
-					</template>
-					<template #foot="slotProps">
-						<div class="mt-2" v-if="slotProps.memberId==$store.state.member.user">
-							<button class="btn btn-sm reserveBtn" @click="reserveCancel(slotProps.id)">RESERVE CANCEL</button>
-						</div>
-					</template>
-        </ReservedListModal>
-      </teleport>
+      <hr>
+      <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-2 row-cols-xl-6 justify-content-center">
+        <div
+          v-for="(list,index) in seats"
+          :key="index"
+          class="col-2 mb-3 text-center list"
+        >
+          <button
+            class="btn btn"
+            @click="openReserveModal(index,list.id)"
+          >
+            <div class="card"> 
+              <div
+                class="card-img-top state"
+                :style="list.seatState=='empty' ? 'background-color:salmon' : 'background-color:green'"
+              >
+                {{ list.seatState }}
+              </div>
+              <div class="card-body">
+                <div class="text-center">
+                  <h5 class="fw-bolder">
+                    {{ list.id }}
+                  </h5>
+                </div>
+              </div>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+    <teleport to="#modal">
+      <ReserveModal
+        v-if="reserve"
+        class="reserveModal"
+        :send-id="sendId"
+        :index="sendIndex"
+        @close-reserve="closeReserve"
+        @reserve-success="reserveSuccess"
+      />
+    </teleport>
+    <teleport to="#modal">
+      <ReservedListModal
+        v-if="reserveList"
+        class="reserveModal"
+        :reserve-list="reservedInfor"
+        @close-list="closeList"
+        @reserve-cancel="reserveCancel"
+      >
+        <template #head>
+          RESERVE LIST
+        </template>
+        <template #body="slotProps">
+          <div class="input-group">
+            <span class="input-group-text">Seat Num: </span>
+            <input
+              type="text"
+              class="date form-control"
+              disabled
+              :value="slotProps.id"
+            >
+          </div>
+          <div class="mt-2 input-group">
+            <span class="input-group-text">Date: </span>
+            <input
+              type="date"
+              class="date form-control"
+              disabled
+              :value="slotProps.date"
+            >
+          </div>
+          <div class="mt-2 input-group">
+            <span class="input-group-text">Name: </span>
+            <input
+              type="text"
+              class="form-control name"
+              disabled
+              :value="slotProps.reserveName"
+            >
+          </div>
+        </template>
+        <template #foot="slotProps">
+          <div
+            v-if="slotProps.memberId==$store.state.member.user"
+            class="mt-2"
+          >
+            <button
+              class="btn btn-sm reserveBtn"
+              @click="reserveCancel(slotProps.id)"
+            >
+              RESERVE CANCEL
+            </button>
+          </div>
+        </template>
+      </ReservedListModal>
+    </teleport>
   </section>
 </template>
 
@@ -97,7 +147,7 @@ export default {
         const reserveSuccess = (data) => {
             console.log('들어온 data')
             console.log(data)
-            store.dispatch('reserve/reserve',data).then((res)=>{
+            store.dispatch('reserve/reserve',data).then(()=>{
                 
                 reserve.value = false
                 getList()
@@ -106,7 +156,7 @@ export default {
             })
         }
         const register = () => {
-            store.dispatch('reserve/updateSeat').then((res)=>{
+            store.dispatch('reserve/updateSeat').then(()=>{
                 getList()
             })
         }
@@ -119,7 +169,7 @@ export default {
             reserveList.value = false
         }
         const reserveCancel = (data) => {
-            store.dispatch('reserve/cancelReserve',data).then((res)=>{
+            store.dispatch('reserve/cancelReserve',data).then(()=>{
                 reserveList.value = false
                 getList()
             }).catch((err)=>{

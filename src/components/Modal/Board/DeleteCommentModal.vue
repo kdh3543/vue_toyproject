@@ -2,18 +2,20 @@
   <div class="signModal">
     <div class="col-3 mx-auto box p-3">
       <div class="d-flex title">
-        <h2>LOGOUT</h2>
         <span
           class="btn btn-close btn-close-white close"
           @click="closeModal"
         />
       </div>
-      <div class="btns">
+      <div class="mt-2 confirmMsg">
+        <span>Are you sure you want to delete comment?</span>
+      </div>
+      <div class="btns mt-3">
         <button
           class="btn btn-primary submit btn-sm me-2"
-          @click="logout"
+          @click="onDelete(index)"
         >
-          LOGOUT
+          DELETE
         </button>
         <button
           class="btn btn-primary submit btn-sm"
@@ -29,17 +31,23 @@
 <script>
 
 export default {
-  emits:['close-logout','on-logout'],
+  props: {
+    index: {
+      type: Number,
+      required: true
+    }
+  },
+  emits:['close-delete','on-delete'],
   setup(props,{emit}){
     const closeModal = () => {
-      emit('close-logout')
+      emit('close-delete')
     }
-    const logout = () => {
-      emit('on-logout')
+    const onDelete = (index) => {
+      emit('on-delete',index)
     }
     return {
       closeModal,
-      logout
+      onDelete
     }
   }
 }
@@ -66,6 +74,9 @@ export default {
   background-color: rgb(128, 128, 128, 0.5);
 }
 .btns {
+  text-align: center;
+}
+.confirmMsg {
   text-align: center;
 }
 </style>

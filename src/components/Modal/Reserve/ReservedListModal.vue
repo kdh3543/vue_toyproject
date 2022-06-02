@@ -6,37 +6,45 @@
           <slot name="head" />
         </h4>
       </div>
-      <button class="btn btn-close close" @click="closeList"></button>
-      <slot name="body" :index="index" :id="reserveList.id" :date="reserveList.date" :reserveName="reserveList.name"></slot>
+      <button
+        class="btn btn-close close"
+        @click="closeList"
+      />
+      <slot
+        :id="reserveList.id"
+        name="body"
+        :index="index"
+        :date="reserveList.date"
+        :reserve-name="reserveList.name"
+      />
       
-      <slot name="foot" :memberId="reserveList.memberId" :id="reserveList.id" ></slot>
-      
+      <slot
+        :id="reserveList.id"
+        name="foot"
+        :member-id="reserveList.memberId"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import { ref } from 'vue'
-import ReservedList from '@/components/Modal/Reserve/ReservedListModal.vue'
 
 export default {
-  components: {
-    ReservedList
-  },
-  emits:['closeList'],
+
   props:{
     reserveList:{
-      types: Array,
-      require: true
+      type: Array,
+      required: true
     },
     index:{
-      types: Number,
-      require: true
+      type: Number,
+      required: true
     }
   },
+  emits:['close-list'],
   setup(props,{emit}){
     const closeList = () => {
-      emit('closeList')
+      emit('close-list')
     }
     return {
       closeList,

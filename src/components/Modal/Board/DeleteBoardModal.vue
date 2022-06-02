@@ -2,15 +2,27 @@
   <div class="signModal">
     <div class="col-3 mx-auto box p-3">
       <div class="d-flex title">
-        <h2>DELETE BOARD</h2>
-        <span class="btn btn-close btn-close-white close" @click="closeModal"></span>
+        <span
+          class="btn btn-close btn-close-white close"
+          @click="closeModal"
+        />
       </div>
-      <div class="mt-2">
-        <span>Are you sure you want to delete board</span>
+      <div class="mt-2 confirmMsg">
+        <span>Are you sure you want to delete board?</span>
       </div>
-      <div class="btns mt-2">
-        <button class="btn btn-primary submit btn-sm me-2" @click="onDelete(index)">DELETE</button>
-        <button class="btn btn-primary submit btn-sm" @click="closeModal">CANCEL</button>
+      <div class="btns mt-3">
+        <button
+          class="btn btn-primary submit btn-sm me-2"
+          @click="onDelete(index)"
+        >
+          DELETE
+        </button>
+        <button
+          class="btn btn-primary submit btn-sm"
+          @click="closeModal"
+        >
+          CANCEL
+        </button>
       </div>
     </div>
   </div>
@@ -19,19 +31,19 @@
 <script>
 
 export default {
-  emits:['closeDelete','onDelete'],
   props: {
     index: {
-      types: Number,
+      type: Number,
       required: true
     }
   },
+  emits:['close-delete','on-delete'],
   setup(props,{emit}){
     const closeModal = () => {
-      emit('closeDelete')
+      emit('close-delete')
     }
     const onDelete = (index) => {
-      emit('onDelete',index)
+      emit('on-delete',index)
     }
     return {
       closeModal,
@@ -62,6 +74,9 @@ export default {
   background-color: rgb(128, 128, 128, 0.5);
 }
 .btns {
+  text-align: center;
+}
+.confirmMsg {
   text-align: center;
 }
 </style>

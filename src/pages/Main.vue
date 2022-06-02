@@ -1,8 +1,18 @@
 <template>
   <div>
-    <HeadImg class="headImg"/>
+    <HeadImg class="headImg" />
     <ImgLists />
-    <Footer />
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          test1
+        </div>
+        <div class="col-6">
+          <MiniBoard />
+        </div>
+      </div>
+    </div>
+    <Footer class="mt-5" />
   </div>
 </template>
 
@@ -10,17 +20,20 @@
 import HeadImg from '@/components/Head/HeadImg.vue'
 import ImgLists from '@/components/Lists/ImgLists.vue'
 import Footer from '@/components/Footer/Footer.vue'
+import MiniBoard from '@/components/Main/miniBoard.vue'
 
 export default {
   components: {
     HeadImg,
     ImgLists,
     Footer,
+    MiniBoard
   },
 }
 </script>
 
 <style scoped>
+
 @media screen and (max-width:767px) {
   
 }

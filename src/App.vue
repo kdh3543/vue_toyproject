@@ -1,10 +1,29 @@
 <template>
   <div>
-    <NavBar @SignUp="SignUp" @SignIn="SignIn" @logout="logout"/>
-    <SignUpModal v-if="openSignUp" @closeSignUp="closeSignUp" @onSignUp="onSignUp" class="signModal"/>  
-    <SignInModal v-if="openSignIn" @closeSignIn="closeSignIn" @onSignIn="onSignIn" class="signModal"/>
-    <LogoutModal v-if="openLogout" @closeLogout="closeLogout" @onLogout="onLogout" class="signModal"/>
-    <router-view/>
+    <NavBar
+      @sign-up="SignUp"
+      @sign-in="SignIn"
+      @logout="logout"
+    />
+    <SignUpModal
+      v-if="openSignUp"
+      class="signModal"
+      @close-sign-up="closeSignUp"
+      @on-sign-up="onSignUp"
+    />  
+    <SignInModal
+      v-if="openSignIn"
+      class="signModal"
+      @close-sign-in="closeSignIn"
+      @on-sign-in="onSignIn"
+    />
+    <LogoutModal
+      v-if="openLogout"
+      class="signModal"
+      @close-logout="closeLogout"
+      @on-logout="onLogout"
+    />
+    <router-view />
   </div>
 </template>
 
@@ -48,7 +67,7 @@ export default {
       openSignIn.value = false
     }
     const onSignIn = (data) => {
-      store.dispatch('member/signIn',data).then((res)=>{
+      store.dispatch('member/signIn',data).then(()=>{
         if(store.state.member.user==''){
           alert('잘못 입력하셨습니다.')
           return false
@@ -60,7 +79,7 @@ export default {
       })
     }
     const onLogout = () => {
-      store.dispatch('member/logout').then((res)=>{
+      store.dispatch('member/logout').then(()=>{
         if(store.state.member.user==''){
           openLogout.value = false
           router.push({

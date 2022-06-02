@@ -1,55 +1,102 @@
 <template>
   <div class="container">
     <div class="pt-3 d-flex">
-      <h2 class="mx-auto">Board</h2>
+      <h2 class="mx-auto">
+        Board
+      </h2>
     </div>
     
-    <div class="head mt-3 d-flex" v-if="$store.state.member.user">
-        
+    <div
+      v-if="$store.state.member.user"
+      class="head mt-3 d-flex"
+    >
       <span class="span">
-        <button class="btn btn-primary btn-sm register" @click="toRegister">Register</button>
+        <button
+          class="btn btn-primary btn-sm register"
+          @click="toRegister"
+        >Register</button>
       </span>
     </div>
     <hr>
-    <div class="d-flex boardTitle" v-if="$store.state.member.user">
-      <div class="col-1">SEQ</div>
-      <div class="col-2">ID</div>
-      <div class="col-3">TITLE</div>
-      <div class="col-3">UPDATEDAT</div>
-      <div class="col-2">DELETE</div>
-      <div class="col-1">VIEWS</div>
+    <div
+      v-if="$store.state.member.user"
+      class="d-flex boardTitle"
+    >
+      <div class="col-1">
+        SEQ
+      </div>
+      <div class="col-2">
+        ID
+      </div>
+      <div class="col-3">
+        TITLE
+      </div>
+      <div class="col-3">
+        UPDATEDAT
+      </div>
+      <div class="col-2">
+        DELETE
+      </div>
+      <div class="col-1">
+        VIEWS
+      </div>
     </div>
     <hr>
     <div v-if="$store.state.member.user">
-      <div class="card mt-2" v-for="(list,index) in boards" :key="index" @click="boardInfor(index)">
-        <div class="d-flex align-items-center boardTitle card-body p-2">
-          <div class="col-1">{{list.id}}</div>
-          <div class="col-2">{{list.userId}}</div>
-          <div class="col-3">{{list.title}}</div>
-          <div class="col-3">{{list.updatedAt}}</div>
-          <div class="col-2">
-            <button class="btn btn-danger btn-sm delete" @click.stop="deleteBoard(list.id)" :class="list.userId==$store.state.member.user ? '' : 'disabled'">
-              Delete
-            </button>
+      <div
+        v-for="(list,index) in boards"
+        :key="index"
+        class="card mt-2"
+        @click="boardInfor(index)"
+      >
+        <div class="d-flex align-items-center boardTitle card-body p-1">
+          <div class="col-1">
+            {{ list.id }}
           </div>
-          <div class="col-1">{{list.views}}</div>
+          <div class="col-2">
+            {{ list.userId }}
+          </div>
+          <div class="col-3">
+            {{ list.title }}
+          </div>
+          <div class="col-3">
+            {{ list.updatedAt }}
+          </div>
+          <div class="col-2">
+            <b-button
+              class="btn btn-sm delete"
+              :class="list.userId==$store.state.member.user ? '' : 'disabled'"
+              @click.stop="deleteBoard(list.id)"
+            >
+              Delete
+            </b-button>
+          </div>
+          <div class="col-1">
+            {{ list.views }}
+          </div>
         </div>
       </div>
     </div>
-    <div v-else>
-
-    </div>
-    <div class="d-flex mt-2 " v-if="$store.state.user">
+    <div v-else />
+    <div
+      v-if="$store.state.user"
+      class="d-flex mt-2 "
+    >
       <Pagination
         class="mx-auto"
-        :currentPage="currentPage"
-        :initOrder="initOrder"
-        :totalPages="totalPages()"
+        :current-page="currentPage"
+        :init-order="initOrder"
+        :total-pages="totalPages()"
         @move-page="boardList"
       />
       <Select @choice="choice" />
     </div>
-    <BoardDeleteModal :index="sendIndex" v-if="openDelete" @closeDelete='closeDelete' @onDelete='onDelete'/>
+    <BoardDeleteModal
+      v-if="openDelete"
+      :index="sendIndex"
+      @close-delete="closeDelete"
+      @on-delete="onDelete"
+    />
   </div>
 </template>
 
@@ -189,9 +236,11 @@ export default {
 }
 .delete {
   border-radius: 1rem;
+  border: none;
+  background-color: rgb(220, 20, 60, 0.8);
 }
 .delete:hover {
   cursor: default;
-  background-color: brown;
+  background-color: crimson;
 }
 </style>

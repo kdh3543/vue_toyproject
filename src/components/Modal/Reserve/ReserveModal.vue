@@ -2,37 +2,59 @@
   <div>
     <div class="reserveBox">
       <div class="d-flex">
-        <h4 class="p-2 mx-auto">RESERVATION</h4>
+        <h4 class="p-2 mx-auto">
+          RESERVATION
+        </h4>
       </div>
-      <button class="btn btn-close close" @click="closeReserve"></button>
+      <button
+        class="btn btn-close close"
+        @click="closeReserve"
+      />
       <div class="input-group">
         <span class="input-group-text">Seat Num: </span>
         
-        <input type="text" class="date form-control" disabled :value="index">
+        <input
+          type="text"
+          class="date form-control"
+          disabled
+          :value="index"
+        >
       </div>
       <div class="mt-2 input-group">
         <span class="input-group-text">Date: </span>
-        <input type="date" class="date form-control" v-model="date">
+        <input
+          v-model="date"
+          type="date"
+          class="date form-control"
+        >
       </div>
       <div class="mt-2 input-group">
         <span class="input-group-text">Name: </span>
-        <input type="text" class="form-control name" v-model="name">
+        <input
+          v-model="name"
+          type="text"
+          class="form-control name"
+        >
       </div>
-      <div class="mt-2 input-group">
-        <span class="input-group-text">Time: </span>
-        <select class="select">
-          <option>0~2</option>
-        </select>
-      </div>
-      
-      <div class="error" v-if="error">
+      <div
+        v-if="error"
+        class="error"
+      >
         All information must be entered.
       </div>
-      <div class="error" v-if="loginError">
+      <div
+        v-if="loginError"
+        class="error"
+      >
         Please login and then go reserve
       </div>
       <div class="mt-2">
-        <button class="btn btn-sm reserveBtn" @click="reserveSuccess(sendId)">RESERVE</button>
+        <button
+          class="btn btn-sm reserveBtn"
+          @click="reserveSuccess(sendId)"
+        >
+          RESERVE
+        </button>
       </div>
     </div>
   </div>
@@ -44,20 +66,20 @@ import { ref } from 'vue'
 import { useStore } from 'vuex'
 
 export default {
+  props:{
+    index:{
+      type: Number,
+      required: true
+    },
+    sendId:{
+      type: Number,
+      required: true
+    }
+  },
   // components: {
   //   ReservedList
   // },
-  emits:['closeReserve','reserveSuccess'],
-  props:{
-    index:{
-      types: Number,
-      require: true
-    },
-    sendId:{
-      types: Number,
-      require: true
-    }
-  },
+  emits:['close-reserve','reserve-success'],
   setup(props,{emit}){
     const store = useStore()
     const date = ref('')
@@ -65,7 +87,7 @@ export default {
     const error = ref(false)
     const loginError = ref(false)
     const closeReserve = () => {
-      emit('closeReserve')
+      emit('close-reserve')
     }
     const reserveSuccess = (index) => {
       console.log(index)
@@ -78,7 +100,7 @@ export default {
           return false
         }else{
           error.value = false
-          emit('reserveSuccess',{
+          emit('reserve-success',{
             id: index,
             date: date.value,
             name: name.value
@@ -92,7 +114,7 @@ export default {
       closeReserve,
       reserveSuccess,
       error,
-      loginError
+      loginError,
     }
   }
 }
@@ -101,9 +123,8 @@ export default {
 <style scoped>
 .reserveBox {
   margin: auto;
-  width: 300px;
-  height: 350px;
-  background-color: gray;
+  width: 20%;
+  background-color: white;
   border: 10px solid black;
   position: relative;
   border-radius: 2rem;

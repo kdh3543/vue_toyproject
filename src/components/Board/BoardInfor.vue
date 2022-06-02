@@ -4,20 +4,40 @@
       <h3>Board Infor</h3>
     </div>
     <hr>
-    <div class="mb-3 error" v-if="error">
+    <div
+      v-if="error"
+      class="mb-3 error"
+    >
       please input all information
     </div>
     <div class="input-group mb-3">
       <span class="input-group-text">Title: </span>
-      <input type="text" placeholder="input title" class="form-control" v-model="title"
-       :disabled="$store.state.member.user!=userId ? true : false">
+      <input
+        v-model="title"
+        type="text"
+        placeholder="input title"
+        class="form-control"
+        :disabled="$store.state.member.user!=userId ? true : false"
+      >
     </div>
     <div>
       <label class="form-label">Contents</label>
-      <textarea class="form-control" style="resize:none" rows="15" v-model="contents" :disabled="$store.state.member.user!=userId ? true : false"></textarea>
+      <textarea
+        v-model="contents"
+        class="form-control"
+        style="resize:none"
+        rows="15"
+        :disabled="$store.state.member.user!=userId ? true : false"
+      />
     </div>
     <div class="mt-2 btns">
-      <button class="m-2 btn btn-primary" @click="modify" :disabled="$store.state.member.user!=userId ? true : false">MODIFY</button>
+      <button
+        class="m-2 btn btn-primary"
+        :disabled="$store.state.member.user!=userId ? true : false"
+        @click="modify"
+      >
+        MODIFY
+      </button>
       <router-link :to="{name:'Board'}">
         <button class="m-2 btn btn-primary">
           CANCEL
@@ -26,35 +46,38 @@
     </div>
     <div class="mt-4">
       <div class="form-floating">
-        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 120px; resize:none" v-model="toComment"></textarea>
+        <textarea
+          id="floatingTextarea2"
+          v-model="toComment"
+          class="form-control"
+          placeholder="Leave a comment here"
+          style="height: 120px; resize:none"
+        />
         <label for="floatingTextarea2">Comments</label>
       </div>
       <div class="register">
-        <button class="mt-2 btn btn-secondary" @click="registerComment">register</button>
+        <button
+          class="mt-2 btn btn-secondary"
+          @click="registerComment"
+        >
+          register
+        </button>
       </div>
       <div v-if="comments">
-        <div class="commentBox d-flex mt-2" v-for="list in comments" :key="list" >
-          <div class="col-10">
-            <div class="id p-1">
-              {{ list.userId }}
-            </div>
-            <div class="time p-1">
-              {{ list.time }}
-            </div>
-            <div class="contents p-1">
-              {{ list.comment }}
-            </div>
-          </div>
-          
-          <div class="col-2 commentBtns">
-            <button class="m-1">수정</button>
-            <button class="m-1">삭제</button>
-          </div>
-        </div>
+        <Comment
+          :comments="comments"
+          @mod-comment="modComment"
+          @del-comment="delComment"
+        />
       </div>
-      
       <hr>
     </div>
+    <DeleteCommentModal
+      v-if="openDelete"
+      :index="sendIndex"
+      @close-delete="closeDelete"
+      @on-delete="onDelete"
+    />
   </div>
 </template>
 
@@ -63,8 +86,14 @@ import { ref } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter,useRoute } from 'vue-router'
 import dayjs from 'dayjs'
+import DeleteCommentModal from '@/components/Modal/Board/DeleteCommentModal.vue'
+import Comment from '@/components/Board/Comment.vue'
 
 export default {
+  components: {
+    DeleteCommentModal,
+    Comment
+  },
   setup() {
     const title = ref('')
     const contents = ref('')
@@ -77,6 +106,8 @@ export default {
     const toComment = ref('')
     const commentExist = ref(false)
     const comments = ref([])
+    const openDelete = ref(false)
+    const sendIndex = ref(null)
       
     const getInfor = () => {
       store.dispatch('board/getBoardInfor',id).then((res)=>{
@@ -94,7 +125,7 @@ export default {
         title: title.value,
         contents: contents.value,
       }
-      store.dispatch('board/modify',data).then((res)=>{
+      store.dispatch('board/modify',data).then(()=>{
         alert("success")
         router.push({
           name: 'Board'
@@ -104,21 +135,50 @@ export default {
       })
     }
     const registerComment = () => {
-      const data = {
-        id: id,
-        userId: store.state.member.user,
-        comment: toComment.value,
-        time: dayjs().format('YYYY-MM-DD HH:mm:ss')
+      if(toComment.value==''){
+        alert('please input comment')
+      }else {
+        const data = {
+          id: id,
+          userId: store.state.member.user,
+          comment: toComment.value,
+          time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+          modify: false,
+        }
+        store.dispatch('board/comment',data).then((res)=>{
+          comments.value.push(res.data)
+          toComment.value = ''
+        })
       }
-      store.dispatch('board/comment',data)
+      
     }
     const getComment = () => {
       store.dispatch('board/getComment',id).then((res)=> {
-        console.log(res)
         comments.value = res.data
       })
     }
     getComment()
+    const delComment = (index) => {
+      console.log(index)
+      sendIndex.value = index
+      openDelete.value = true
+      
+    }
+    const modComment = (data) => {
+      console.log(data)
+      store.dispatch('board/modComment',data).then((res)=>{
+        console.log(res)
+      })
+    }
+    const closeDelete = () => {
+      openDelete.value = false
+    }
+    const onDelete = (index) => {
+      store.dispatch('board/delComment',index).then(()=> {
+        openDelete.value = false
+        getComment()
+      })
+    }
     return {
       error,
       modify,
@@ -130,7 +190,13 @@ export default {
       commentExist,
       registerComment,
       getComment,
-      comments
+      comments,
+      delComment,
+      modComment,
+      openDelete,
+      sendIndex,
+      closeDelete,
+      onDelete
     }
   }
 }
@@ -140,7 +206,9 @@ export default {
 .head {
   text-align: center;
 }
-
+.btns {
+  text-align: center;
+}
 .btns button {
   background-color: dimgrey;
   border: none;
@@ -154,23 +222,5 @@ export default {
 .register {
   text-align: right;
 }
-.commentBox {
-  width: 100%;
-  height: 150px;
-  border: 1px solid gray;
-  border-radius: 10px;
-  position: relative;
-}
-.commentBtns {
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
-}
-.commentBtns > button {
-  border: none;
-  background: none;
-}
-.commentBtns > button:hover {
-  transform: scale(1.1);
-}
+
 </style>

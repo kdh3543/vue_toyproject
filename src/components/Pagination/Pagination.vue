@@ -1,29 +1,41 @@
 <template>
   <div>
-    <nav aria-label="Page navigation example" class="pagination my">
+    <nav
+      aria-label="Page navigation example"
+      class="pagination my"
+    >
       <ul class="pagination my">
-        <li class="page-item" v-if="currentPage !== 1">
+        <li
+          v-if="currentPage !== 1"
+          class="page-item"
+        >
           <a
             class="page-link"
-            @click="movePage(currentPage - 1, initOrder)"
             aria-label="Previous"
+            @click="movePage(currentPage - 1, initOrder)"
           >
             <span aria-hidden="true">&laquo;</span>
           </a>
         </li>
         <li
-          class="page-item"
-          :class="currentPage === page ? 'active' : ''"
           v-for="page in totalPages"
           :key="page"
+          class="page-item"
+          :class="currentPage === page ? 'active' : ''"
         >
-          <a class="page-link" @click="movePage(page, initOrder)">{{ page }}</a>
-        </li>
-        <li class="page-item" v-if="currentPage !== totalPages">
           <a
             class="page-link"
-            @click="movePage(currentPage + 1, initOrder)"
+            @click="movePage(page, initOrder)"
+          >{{ page }}</a>
+        </li>
+        <li
+          v-if="currentPage !== totalPages"
+          class="page-item"
+        >
+          <a
+            class="page-link"
             aria-label="Next"
+            @click="movePage(currentPage + 1, initOrder)"
           >
             <span aria-hidden="true">&raquo;</span>
           </a>
@@ -37,15 +49,15 @@
 export default {
   props: {
     totalPages: {
-      types: Number,
+      type: Number,
       required: true,
     },
     currentPage: {
-      types: Number,
+      type: Number,
       required: true,
     },
     initOrder: {
-      types: String,
+      type: String,
       required: true,
     },
   },
